@@ -1,7 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var router = express.Router();
-const uri = require('include');
+
 
 
 /* GET home page. */
@@ -11,7 +11,13 @@ router.get('/', function(req, res, next){
         useUnifiedTopology: true,
         useNewUrlParser: true
       }
-    mongoose.connect(uri,options);
+    mongoose
+      .connect(process.env.DEV_DB,options)
+      .then(()=> console.log('DB Connected'))
+      .catch(err=>{
+        console.log(err);
+      })
+
     
     const db = mongoose.connection;
     
