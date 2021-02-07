@@ -1,8 +1,15 @@
 var express = require('express');
 var mongoose = require('mongoose');
+const morgan = require('morgan');
+const user = require("./routes/user");
+const product = require("./routes/product");
+const cors = require('cors');
+
+
 var router = express.Router();
 
 
+const app = express();
 
 /* GET home page. */
 router.get('/', function(req, res, next){
@@ -17,6 +24,10 @@ router.get('/', function(req, res, next){
       .catch(err=>{
         console.log(err);
       })
+      app.use(morgan('dev'));
+      app.use(cors({ origin: "*"}));
+      app.use("/user", user);
+      app.use("/product", product);
 
     
     const db = mongoose.connection;
@@ -41,7 +52,6 @@ router.get('/', function(req, res, next){
     // });
 });
 
-//.env
 //https://tamotech.blog/2020/05/08/express-mongo-connect2/
 
 module.exports = router;

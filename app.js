@@ -4,8 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index').default;
+var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const productRouter = require('./routes/product')
 
 var app = express();
 
@@ -38,8 +39,15 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 module.exports = app;
 
+//https://tamotech.blog/2020/05/08/express-mongo-connect2/
+require('dotenv').config();
 
 var mongoose = require('mongoose');
+mongoose
+	.connect(process.env.DEV_DB, {useNewUrlParser: true, useCreateIndex: true,useUnifiedTopology: true})
+	.then(()=> console.log('DB Connected'))
+	.catch(err=>{
+		console.log(err);
+	})

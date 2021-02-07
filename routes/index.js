@@ -1,5 +1,6 @@
-import { Router } from 'express';
-var router = Router();
+var express = require('express');
+var router = express.Router();
+
 
 
 var getData = function () {
@@ -20,4 +21,4 @@ router.get('/', function (req, res) {
   res.render('index', { title: 'Express', "data": getData() });
 });
 
-export default router;
+module.exports = router; 
