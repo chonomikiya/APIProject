@@ -6,7 +6,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const productRouter = require('./routes/product')
+// const productRouter = require('./routes/product')
 
 var app = express();
 
@@ -45,9 +45,27 @@ module.exports = app;
 require('dotenv').config();
 
 var mongoose = require('mongoose');
+const router = require('./routes/index');
+// router.get('/', function (req, res){
 mongoose
 	.connect(process.env.DEV_DB, {useNewUrlParser: true, useCreateIndex: true,useUnifiedTopology: true})
 	.then(()=> console.log('DB Connected'))
 	.catch(err=>{
 		console.log(err);
-	})
+  })
+  var productSchema = new mongoose.Schema({
+    _id: Number,
+    best_seller: Boolean,
+    product_reviews: Array,
+    product_by: String,
+    product_link: String,
+    product_imgurl: String,
+    product_summary: String,
+    title: String,
+  })
+  var UserModel = mongoose.model('products',productSchema);
+  UserModel.find({},{product_by:1,title:1,product_imgurl:1},function(err,docs){
+    if(err) throw err;
+    console.log(docs);
+  })
+// })
